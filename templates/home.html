@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %} Home{% endblock title %} 
+{% block body %}
+
+<div class="container my-3">
+    <h2>Add a Notification</h2>
+    <form action="/" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Todo Title</label>
+            <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp"> 
+        </div>
+        <div class="mb-3">
+            <label for="desc" class="form-label">Todo Description</label>
+            <input type="text" class="form-control" name="desc" id="desc">
+        </div>
+        <div class="mb-3">
+            <label for="notify_time" class="form-label">Notification Time</label>
+            <input type="datetime-local" class="form-control" name="notify_time" id="notify_time">
+        </div>
+        <button type="submit" class="btn btn-dark">Submit</button>
+    </form>
+</div>
+
+<div class="container my-3">
+    <h2>Your Todos</h2>
+    {% if allTodo|length == 0 %}
+    <div class="alert alert-dark" role="alert">
+        No Todos found. Add your first todo now!
+    </div>
+    {% else %} 
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">SNo</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Creation Time</th>
+                <th scope="col">Notification Time</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in allTodo %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.desc }}</td>
+                <td>{{ todo.date_created.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ todo.notify_time.strftime('%Y-%m-%d %H:%M') if todo.notify_time else 'Not set' }}</td>
+                <td>
+                    <a href="/update/{{ todo.sno }}" class="btn btn-outline-dark btn-sm mx-1">Update</a>
+                    <a href="/delete/{{ todo.sno }}" class="btn btn-outline-dark btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+<!-- Include your JavaScript file here -->
+<script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+
+{% endblock body %}
