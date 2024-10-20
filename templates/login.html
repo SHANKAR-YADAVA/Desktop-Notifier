@@ -1,34 +1,16 @@
-{% extends 'base.html' %} {% block title %} Home{% endblock title %} {% block
-body %}
+{% extends "base.html" %}
 
-<div class="container my-3">
-  <h2>Login</h2>
-  <form action="/" method="POST">
-    <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"
-        >Email address</label
-      >
-      <input
-        type="email"
-        class="form-control"
-        id="exampleFormControlInput1"
-        placeholder="name@example.com"
-      />
+{% block content %}
+<h2>Login</h2>
+<form method="POST" action="{{ url_for('login') }}">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" class="form-control" required>
     </div>
-    <label for="inputPassword5" class="form-label">Password</label>
-    <input
-      type="password"
-      id="inputPassword5"
-      class="form-control"
-      aria-describedby="passwordHelpBlock"
-    />
-    <div id="passwordHelpBlock" class="form-text">
-      Your password must be 8-20 characters long, contain letters and numbers,
-      and must not contain spaces, special characters, or emoji.
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" class="form-control" required>
     </div>
-  </form>
-  <a href="/home.html" class="btn btn-outline-dark btn-sm mx-1">login</a>
-  <p>Don't have an account? <a href="/register">Register here</a></p>
-</div>
-
-{% endblock body %}
+    <button type="submit" class="btn btn-dark">Login</button>
+</form>
+{% endblock %}

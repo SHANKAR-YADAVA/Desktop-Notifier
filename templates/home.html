@@ -1,25 +1,23 @@
-{% extends 'base.html' %}
-{% block title %} Home{% endblock title %} 
-{% block body %}
+{% extends "base.html" %}
 
-<div class="container my-3">
-    <h2>Add a Notification</h2>
-    <form action="/" method="POST">
-        <div class="mb-3">
-            <label for="title" class="form-label">Todo Title</label>
-            <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp"> 
-        </div>
-        <div class="mb-3">
-            <label for="desc" class="form-label">Todo Description</label>
-            <input type="text" class="form-control" name="desc" id="desc">
-        </div>
-        <div class="mb-3">
-            <label for="notify_time" class="form-label">Notification Time</label>
-            <input type="datetime-local" class="form-control" name="notify_time" id="notify_time">
-        </div>
-        <button type="submit" class="btn btn-dark">Submit</button>
-    </form>
-</div>
+{% block content %}
+<h2>Welcome, {{ current_user.username }}!</h2>
+<form method="POST" action="{{ url_for('home') }}">
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="desc">Description:</label>
+        <textarea name="desc" id="desc" class="form-control" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="notify_time">Notify Time:</label>
+        <input type="datetime-local" name="notify_time" id="notify_time" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-dark">Add Todo</button>
+</form>
+<hr>
 
 <div class="container my-3">
     <h2>Your Todos</h2>
@@ -48,8 +46,8 @@
                 <td>{{ todo.date_created.strftime('%Y-%m-%d %H:%M') }}</td>
                 <td>{{ todo.notify_time.strftime('%Y-%m-%d %H:%M') if todo.notify_time else 'Not set' }}</td>
                 <td>
-                    <a href="/update/{{ todo.sno }}" class="btn btn-outline-dark btn-sm mx-1">Update</a>
-                    <a href="/delete/{{ todo.sno }}" class="btn btn-outline-dark btn-sm mx-1">Delete</a>
+                    <a href="{{ url_for('update', id=todo.id) }}" class="btn btn-outline-dark btn-sm mx-1">Update</a>
+                    <a href="{{ url_for('delete', id=todo.id) }}" class="btn btn-outline-dark btn-sm mx-1">Delete</a>
                 </td>
             </tr>
             {% endfor %}
@@ -57,8 +55,4 @@
     </table>
     {% endif %}
 </div>
-
-<!-- Include your JavaScript file here -->
-<script src="{{ url_for('static', filename='js/notifications.js') }}"></script>
-
-{% endblock body %}
+{% endblock %}
